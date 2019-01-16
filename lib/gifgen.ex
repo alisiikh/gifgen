@@ -34,18 +34,6 @@ defmodule Gifgen.Server do
   use Maru.Server, otp_app: :gifgen
 end
 
-defmodule Gifgen.Supervisor do
-  use Supervisor
-
-  def init(_arg) do
-    children = [
-      Gifgen.Server
-    ]
-
-    Supervisor.init(children, strategy: :one_for_one)
-  end
-end
-
 defmodule Gifgen.Router.Getgif do
   use Gifgen.Server
 
