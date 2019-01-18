@@ -1,4 +1,8 @@
 defmodule Gifgen do
+  @giphy Application.get_env(:gifgen, :giphy)
+  @http_client Application.get_env(:gifgen, :http_client)
+
+
   def get_gif(theme) do
     with {:ok, url} <- gif_url(theme),
          {:ok, img} <- download_gif(url) do
@@ -7,12 +11,12 @@ defmodule Gifgen do
   end
 
   defp gif_url(theme) do
-    %{"data" => %{"image_url" => gif_url}} = GiphyEx.Gifs.random(theme)
+    %{"data" => %{"image_url" => gif_url}} = @giphy.random(theme)
     {:ok, gif_url}
   end
 
   defp download_gif(url) do
-    {:ok, %HTTPoison.Response{body: img}} = HTTPoison.get(url)
+    {:ok, %HTTPoison.Response{body: img}} = @http_client.get(url)
     {:ok, img}
   end
 end
@@ -49,8 +53,6 @@ defmodule Gifgen.Router.Getgif do
     |> put_resp_content_type("image/gif")
     |> send_resp(200, img)
     |> halt
-
-      # json(conn, %{msg: "hello, world!"})
   end
 end
 

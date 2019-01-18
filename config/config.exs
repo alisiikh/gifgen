@@ -38,6 +38,13 @@ config :gifgen, Gifgen.Server,
 config :gifgen,
   maru_servers: [Gifgen.Server]
 
+config :gifgen,
+  gifgen: Gifgen,
+  giphy: GiphyEx.Gifs,
+  http_client: HTTPoison
+
 config :giphy_ex, :api_key, "HQl28PyEj7KyOQ79MUU0L9lfo9F1zuiC"
 
 config :maru, :json_library, Elixir.Jason
+
+import_config "env/#{Mix.env()}.exs"
