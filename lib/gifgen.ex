@@ -2,7 +2,6 @@ defmodule Gifgen do
   @giphy Application.get_env(:gifgen, :giphy)
   @http_client Application.get_env(:gifgen, :http_client)
 
-
   def get_gif(theme) do
     with {:ok, url} <- gif_url(theme),
          {:ok, img} <- download_gif(url) do
@@ -42,12 +41,13 @@ defmodule Gifgen.Router.Getgif do
   use Gifgen.Server
 
   params do
-    requires :theme, type: String
+    requires(:theme, type: String)
   end
 
   get do
-    {:ok, img} = params[:theme]
-      |> Gifgen.get_gif
+    {:ok, img} =
+      params[:theme]
+      |> Gifgen.get_gif()
 
     conn
     |> put_resp_content_type("image/gif")
@@ -59,12 +59,13 @@ end
 defmodule Gifgen.API do
   use Gifgen.Server
 
-  plug Plug.Parsers,
+  plug(Plug.Parsers,
     pass: ["*/*"],
     json_decoder: Elixir.Jason,
     parsers: [:urlencoded, :json, :multipart]
+  )
 
-  mount Gifgen.Router.Getgif
+  mount(Gifgen.Router.Getgif)
 
   rescue_from :all do
     conn

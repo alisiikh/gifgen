@@ -8,7 +8,7 @@ defmodule Gifgen.MixProject do
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      elixirc_paths: elixirc_paths(Mix.env)
+      elixirc_paths: elixirc_paths(Mix.env())
     ]
   end
 
@@ -30,8 +30,6 @@ defmodule Gifgen.MixProject do
       {:maru, "~> 0.13.2"},
       {:plug_cowboy, "~> 2.0"},
       {:jason, "~> 1.1"}
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
     ]
   end
 end
